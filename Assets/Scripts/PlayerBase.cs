@@ -116,7 +116,7 @@ public class PlayerBase : MonoBehaviour {
                 -transform.up);
 
             //move if there is ground below where we are moving
-            if (Physics.Raycast(moveRay, out hit, stepHeight * 2, WalkLayer))
+            if (Physics.SphereCast(moveRay,0.3f, out hit, stepHeight * 2, WalkLayer))
             {
                 transform.position = new Vector3(
                     transform.position.x,

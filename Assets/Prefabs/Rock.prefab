@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4312025641231950}
   - component: {fileID: 65360649690741010}
   - component: {fileID: 54899004451607346}
+  - component: {fileID: 114230748734435566}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Grabbable
@@ -110,6 +111,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6515e5bc8021944cb4329dc1e12e4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114230748734435566
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1243890066688414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d263ca5ed018348b69bf5edd6ae689, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212270777146627826
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -123,7 +135,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 925f3a2a8ae1c864785444b5b09f7b2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -79,7 +79,7 @@ public class PlayerGrabAndThrow : MonoBehaviour {
                 
             }
 
-            if(col.tag == "Grabbable")
+            if(col.GetComponent<A_GrabbableObject>())
             {
                 InteractableAround = true;
                 RingOutput.SetActive(true);

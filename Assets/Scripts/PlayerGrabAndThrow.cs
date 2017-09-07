@@ -79,7 +79,7 @@ public class PlayerGrabAndThrow : MonoBehaviour {
                 
             }
 
-            if(col.tag == "Grabbable")
+            if(col.GetComponent<A_GrabbableObject>())
             {
                 InteractableAround = true;
                 RingOutput.SetActive(true);
@@ -113,7 +113,6 @@ public class PlayerGrabAndThrow : MonoBehaviour {
         {
             grabbed.GetComponent<Rigidbody>().isKinematic = true;
         }
-        Debug.Log("grabbed: "+holdingObject);
 
     }
     private void ThrowObject()

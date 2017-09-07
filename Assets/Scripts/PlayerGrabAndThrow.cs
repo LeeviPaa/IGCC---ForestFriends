@@ -113,7 +113,6 @@ public class PlayerGrabAndThrow : MonoBehaviour {
         {
             grabbed.GetComponent<Rigidbody>().isKinematic = true;
         }
-        Debug.Log("grabbed: "+holdingObject);
 
     }
     private void ThrowObject()

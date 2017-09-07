@@ -5,6 +5,6 @@ using UnityEngine;
 public class SpriteBillboard : MonoBehaviour {
 
 	void Update () {
-        transform.forward = -Camera.main.transform.forward;
+        transform.forward = Camera.main.transform.forward;
 	}
 }

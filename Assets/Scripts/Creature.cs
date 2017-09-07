@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,12 +12,27 @@ public class Creature : MonoBehaviour
     private GameObject target;
 
     [SerializeField]
+    private GameObject eatingEffect;
+
+    [SerializeField]
+    private GameObject exclamationEffect;
+
+    [SerializeField]
+    private GameObject excrement;
+
+    [SerializeField]
     private float sensorDistance;
 
     [SerializeField]
     private float durationForSetDestination = 3.0f;
     [SerializeField]
     private float durationForAttack = 3.0f;
+
+    [SerializeField]
+    private int eatCount = 0;
+
+    [SerializeField]
+    private float wonderLevel = 3;
 
     enum EState
     {
@@ -31,11 +46,10 @@ public class Creature : MonoBehaviour
     }
 
     private EState state = EState.NONE;
-    private IEnumerator coroutine;
     // Use this for initialization
     void Start()
     {
-        Waiting();
+        Wondering();
         state = EState.NONE;
     }
 
@@ -77,8 +91,11 @@ public class Creature : MonoBehaviour
         if (state == EState.ATTACK || state == EState.EAT || state == EState.EXCRETE || state == EState.WAIT)
             return;
 
+        if (eatCount >= 10)
+            Excreting();
+
         if (!target)
-            target = serchTag(gameObject, "Character");
+            target = serchTag(gameObject, "Food");
         else
         {
             if (Vector3.Distance(transform.position, target.transform.position) < sensorDistance)
@@ -119,7 +136,8 @@ public class Creature : MonoBehaviour
     }
     private void ContactTarget(GameObject target)
     {
-        switch (target.name)
+        print(target.tag);
+        switch (target.tag)
         {
             case "Food":
                 Eating();
@@ -141,13 +159,20 @@ public class Creature : MonoBehaviour
 
         StopAllCoroutines();
         StartCoroutine(EatCoroutine());
-        
+
     }
     IEnumerator EatCoroutine()
     {
         print("Start eating!!");
 
-        yield return new WaitForSeconds(3);
+        iTween.ScaleTo(target, iTween.Hash("x", 0, "y", 0, "z", 0, "time", 10.0f));
+
+        MasujimaRyohei.AudioManager.PlaySE("LongEating");
+        eatingEffect.SetActive(true);
+        yield return new WaitForSeconds(1.4f);
+        eatingEffect.SetActive(false);
+        eatCount++;
+        print(eatCount);
 
         print("Finished");
 
@@ -178,12 +203,12 @@ public class Creature : MonoBehaviour
     void Wondering()
     {
         if (state == EState.WONDER)
-            return ;
+            return;
         state = EState.WONDER;
 
         StopAllCoroutines();
         StartCoroutine(WonderCoroutine());
-     
+
 
 
     }
@@ -192,9 +217,10 @@ public class Creature : MonoBehaviour
         while (true)
         {
             print("Set new destination");
-            agent.destination = new Vector3(Random.Range(-12, 12), 0, Random.Range(-12, 12));
+            agent.destination = new Vector3(transform.position.x + Random.Range(-wonderLevel, wonderLevel), 0, transform.position.z + Random.Range(-wonderLevel, wonderLevel));
             yield return new WaitForSeconds(durationForSetDestination);
-        } }
+        }
+    }
     void Waiting()
     {
         if (state == EState.WAIT)
@@ -202,16 +228,25 @@ public class Creature : MonoBehaviour
         state = EState.WAIT;
 
         print("Waiting...");
-        
+
     }
     void Chasing(GameObject target)
     {
-        //if (state == EState.CHASE)
-        //    return;
-        //state = EState.CHASE;
         agent.destination = target.transform.position;
+        if (state == EState.CHASE)
+            return;
+        state = EState.CHASE;
+
+        StopAllCoroutines();
+        StartCoroutine(ChaseCoroutine());
     }
 
+    IEnumerator ChaseCoroutine()
+    {
+        var go = Instantiate(exclamationEffect,new Vector3( transform.position.x,transform.position.y+1.5f,transform.position.z),Quaternion.identity);
+        yield return new WaitForSeconds(0.1f);
+        Destroy(go);
+    }
     void Excreting()
     {
         if (state == EState.EXCRETE)
@@ -228,7 +263,11 @@ public class Creature : MonoBehaviour
 
         yield return new WaitForSeconds(3.0f);
 
+        MasujimaRyohei.AudioManager.PlaySE("Excreting");
+        Instantiate(excrement, transform.position, Quaternion.identity);
+        eatCount = 0;
         print("Finished");
         state = EState.WONDER;
     }
 }
+

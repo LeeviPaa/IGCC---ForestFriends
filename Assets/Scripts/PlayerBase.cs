@@ -93,6 +93,7 @@ public class PlayerBase : MonoBehaviour {
             //Animation variables
             Moving = true;
             LowerSpriteAnimator.SetBool("Walking", true);
+            UpperSpriteAnimator.SetBool("Walking", true);
 
             //Flip the sprite according to move direction
             if (Input.GetAxis("Horizontal") < 0)
@@ -148,6 +149,7 @@ public class PlayerBase : MonoBehaviour {
             //Animation variables
             Moving = false;
             LowerSpriteAnimator.SetBool("Walking", false);
+            UpperSpriteAnimator.SetBool("Walking", false);
         }
     }
 

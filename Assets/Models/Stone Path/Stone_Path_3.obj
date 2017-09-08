@@ -1,0 +1,20 @@
+# This file uses centimeters as units for non-parametric coordinates.
+
+mtllib Stone_Path_3.mtl
+g default
+v 21.091486 -1.404750 -39.727127
+v 21.091486 -1.404750 -42.535191
+v 18.351894 -1.404749 -39.727127
+v 18.351894 -1.404750 -42.535191
+vt 0.950184 0.049815
+vt 0.950184 0.950184
+vt 0.109060 0.049815
+vt 0.109061 0.950184
+vn 0.000000 1.000000 -0.000000
+vn 0.000000 1.000000 -0.000000
+vn 0.000000 1.000000 -0.000000
+vn 0.000000 1.000000 -0.000000
+s off
+g Stone_Path:Group22676
+usemtl Stone_Path:StingrayPBS1SG
+f 4/4/1 3/3/2 1/1/3 2/2/4

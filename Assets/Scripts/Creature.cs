@@ -12,6 +12,9 @@ public class Creature : MonoBehaviour
     private GameObject target;
 
     [SerializeField]
+    private SpriteRenderer spriteRenderer;
+
+    [SerializeField]
     private GameObject eatingEffect;
 
     [SerializeField]
@@ -27,6 +30,8 @@ public class Creature : MonoBehaviour
     private float durationForSetDestination = 3.0f;
     [SerializeField]
     private float durationForAttack = 3.0f;
+    [SerializeField]
+    private float durationForDamage = 3.0f;
 
     [SerializeField]
     private int eatCount = 0;
@@ -40,6 +45,7 @@ public class Creature : MonoBehaviour
         WONDER,
         CHASE,
         ATTACK,
+        DAMAGE,
         EAT,
         EXCRETE,
         NONE
@@ -88,7 +94,11 @@ public class Creature : MonoBehaviour
         }
         #endregion
 
-        if (state == EState.ATTACK || state == EState.EAT || state == EState.EXCRETE || state == EState.WAIT)
+        if (state == EState.ATTACK  || 
+            state == EState.EAT     || 
+            state == EState.EXCRETE || 
+            state == EState.WAIT    || 
+            state == EState.DAMAGE)
             return;
 
         if (eatCount >= 10)
@@ -112,8 +122,16 @@ public class Creature : MonoBehaviour
             }
         }
 
-
-
+        if (agent.velocity.x > 0)
+        {
+            eatingEffect.transform.localPosition = new Vector3(1, 0.5f, 0);
+            spriteRenderer.flipX = true;
+        }
+        else if (agent.velocity.x < 0)
+        {
+            eatingEffect.transform.localPosition = new Vector3(-1, 0.5f, 0);
+            spriteRenderer.flipX = false;
+        }
     }
     GameObject serchTag(GameObject nowObj, string tagName)
     {
@@ -166,7 +184,7 @@ public class Creature : MonoBehaviour
         print("Start eating!!");
 
         iTween.ScaleTo(target, iTween.Hash("x", 0, "y", 0, "z", 0, "time", 10.0f));
-
+        target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         MasujimaRyohei.AudioManager.PlaySE("LongEating");
         eatingEffect.SetActive(true);
         yield return new WaitForSeconds(1.4f);
@@ -199,6 +217,25 @@ public class Creature : MonoBehaviour
 
         //Destroy(target);
         Wondering();
+    }
+
+    void Dameging()
+    {
+        if (state == EState.DAMAGE)
+            return;
+        state = EState.DAMAGE;
+
+        StopAllCoroutines();
+        StartCoroutine(DamageCoroutine());
+    }
+
+    IEnumerator DamageCoroutine()
+    {
+        print("Received any damage!!");
+
+        yield return new WaitForSeconds(durationForDamage);
+
+        print("Revival!");
     }
     void Wondering()
     {
@@ -243,7 +280,7 @@ public class Creature : MonoBehaviour
 
     IEnumerator ChaseCoroutine()
     {
-        var go = Instantiate(exclamationEffect,new Vector3( transform.position.x,transform.position.y+1.5f,transform.position.z),Quaternion.identity);
+        var go = Instantiate(exclamationEffect, new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z), Quaternion.identity);
         yield return new WaitForSeconds(0.1f);
         Destroy(go);
     }

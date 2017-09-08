@@ -166,7 +166,7 @@ public class Creature : MonoBehaviour
         print("Start eating!!");
 
         iTween.ScaleTo(target, iTween.Hash("x", 0, "y", 0, "z", 0, "time", 10.0f));
-
+        target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         MasujimaRyohei.AudioManager.PlaySE("LongEating");
         eatingEffect.SetActive(true);
         yield return new WaitForSeconds(1.4f);

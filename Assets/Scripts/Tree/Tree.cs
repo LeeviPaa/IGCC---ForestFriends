@@ -52,7 +52,6 @@ public class Tree : MonoBehaviour
 
         deltaPos = (endPos - startPos) / time;
         elapsedTime = 0;
-        crashVelocity = 0.0f;
         savetime = shakeTime;
         growSaveTime = growingTime;
         isGrowing = true;
@@ -148,7 +147,11 @@ public class Tree : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.relativeVelocity.magnitude > crashVelocity)
+        Debug.Log(collision.rigidbody.velocity.magnitude);
+        if (collision.rigidbody.velocity.magnitude > crashVelocity)
+        {
             isShake = true;
+        }
+            
     }
 }

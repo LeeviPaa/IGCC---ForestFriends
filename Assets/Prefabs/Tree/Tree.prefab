@@ -313,7 +313,7 @@ MonoBehaviour:
   time: 0.1
   isShake: 0
   shakeTime: 1.5
-  crashVelocity: 0.2
+  crashVelocity: 2
   instanceObject: {fileID: 1503863136630316, guid: 71c7b8266a420354b9879bc891e8f9ed,
     type: 2}
   CreateAmount: 4

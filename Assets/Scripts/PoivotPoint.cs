@@ -10,6 +10,7 @@ public class PoivotPoint : MonoBehaviour {
         if (MainCamHolder)
         {
             MainCamHolder.transform.LookAt(transform);
+            transform.position = new Vector3(transform.position.x, MainCamHolder.transform.position.y, transform.position.z);
         }
 	}
 }

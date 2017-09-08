@@ -101,10 +101,12 @@ public class PlayerGrabAndThrow : MonoBehaviour {
     {
         if(!holdingObject)
             GrabObject(obj);
+
     }
 
     private void GrabObject(GameObject grabbed)
     {
+        grabbed.GetComponent<A_GrabbableObject>().GetGrabbed();
         holdingObject = true;
         GrabbedObject = grabbed;
         grabbed.transform.parent = holdPosition;

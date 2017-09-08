@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 4556009676565078}
   - component: {fileID: 33970032775293126}
   - component: {fileID: 23622300332724970}
-  m_Layer: 0
+  - component: {fileID: 64538254566071268}
+  m_Layer: 8
   m_Name: Scaffolding_118
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +37,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4073854573308498}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plank_Structure_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,4 +109,18 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1516391014045516}
+  m_Mesh: {fileID: 4300000, guid: 63d012a4ea1b32749a59d2fede140631, type: 3}
+--- !u!64 &64538254566071268
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1516391014045516}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 63d012a4ea1b32749a59d2fede140631, type: 3}

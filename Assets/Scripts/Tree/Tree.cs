@@ -72,14 +72,8 @@ public class Tree : MonoBehaviour
                 {
                     Debug.Log("ここまできた");
                     child.gameObject.GetComponent<Rigidbody>().useGravity = true;
-                }
-            }
-
-            foreach (Transform child in transform)
-            {
-                if (child.CompareTag("Apple"))
-                {
                     child.tag = "Food";
+                    child.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                     child.transform.parent = null;
                 }
             }

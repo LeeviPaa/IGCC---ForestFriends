@@ -8,6 +8,7 @@ TagManager:
   - Interactable
   - Grabbable
   - Food
+  - Apple
   layers:
   - Default
   - TransparentFX

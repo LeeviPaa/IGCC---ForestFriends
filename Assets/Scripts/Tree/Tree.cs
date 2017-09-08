@@ -6,10 +6,8 @@ using UnityEngine;
 public class Tree : MonoBehaviour
 {
     // stratPosition
-    [SerializeField]
     private Vector3 startPos;
     // endPosition
-    [SerializeField]
     private Vector3 endPos;
     // time
     [SerializeField]
@@ -48,7 +46,8 @@ public class Tree : MonoBehaviour
     {
         MadeFruit();
 
-        this.transform.position = startPos;
+        startPos = transform.position;
+        endPos = startPos + new Vector3(0.1f, 0, 0);
 
         deltaPos = (endPos - startPos) / time;
         elapsedTime = 0;
@@ -73,14 +72,8 @@ public class Tree : MonoBehaviour
                 {
                     Debug.Log("ここまできた");
                     child.gameObject.GetComponent<Rigidbody>().useGravity = true;
-                }
-            }
-
-            foreach (Transform child in transform)
-            {
-                if (child.CompareTag("Apple"))
-                {
                     child.tag = "Food";
+                    child.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                     child.transform.parent = null;
                 }
             }

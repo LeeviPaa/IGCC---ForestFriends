@@ -52,7 +52,6 @@ public class Tree : MonoBehaviour
 
         deltaPos = (endPos - startPos) / time;
         elapsedTime = 0;
-        crashVelocity = 0.0f;
         savetime = shakeTime;
         growSaveTime = growingTime;
         isGrowing = true;
@@ -70,18 +69,18 @@ public class Tree : MonoBehaviour
         {
             foreach (Transform child in transform)
             {
-                if (child.CompareTag("Food"))
+                if (child.CompareTag("Apple"))
                 {
                     Debug.Log("ここまできた");
                     child.gameObject.GetComponent<Rigidbody>().useGravity = true;
-                    // appleの方である速度床に落ちたら親を解除
                 }
             }
 
             foreach (Transform child in transform)
             {
-                if (child.CompareTag("Food"))
+                if (child.CompareTag("Apple"))
                 {
+                    child.tag = "Food";
                     child.transform.parent = null;
                 }
             }
@@ -148,7 +147,10 @@ public class Tree : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.relativeVelocity.magnitude > crashVelocity)
+        if (collision.rigidbody.velocity.magnitude > crashVelocity)
+        {
             isShake = true;
+        }
+            
     }
 }

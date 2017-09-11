@@ -19,6 +19,8 @@
         public const string oncomplete = "oncomplete";
         public const string oncompletetarget = "oncompletetarget";
 
+        public const string loopType = "looptype";
+
         // Use this for initialization
         void Start()
         {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using ItEx = MasujimaRyohei.iTweenExtensions;
 
 public class Creature : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class Creature : MonoBehaviour
 
     [SerializeField]
     private SpriteRenderer spriteRenderer;
+
+    public bool ShowSerchRange;
+    [SerializeField]
+    private GameObject serchRange;
 
     [SerializeField]
     private GameObject eatingEffect;
@@ -39,6 +44,7 @@ public class Creature : MonoBehaviour
     [SerializeField]
     private float wonderLevel = 3;
 
+
     enum EState
     {
         WAIT,
@@ -56,9 +62,24 @@ public class Creature : MonoBehaviour
     void Start()
     {
         Wondering();
-        state = EState.NONE;
-    }
 
+
+        if(ShowSerchRange)
+        iTween.ValueTo(gameObject,
+            iTween.Hash(ItEx.from, 0, ItEx.to, 0.3f,ItEx.time,3,
+            ItEx.loopType, "pingpong", ItEx.onupdate, "UpdateSensorAnimation"));
+    }
+    void UpdateSensorAnimation(float opacity)
+    {
+        if (serchRange)
+            serchRange.transform.position = new Vector3(transform.position.x, transform.position.y-1, transform.position.z);
+        print(opacity);
+        serchRange.transform.localScale = new Vector3(sensorDistance * 2, 0.01f, sensorDistance * 2);
+        var c = serchRange.GetComponent<MeshRenderer>().material.color;
+        c = new Color(c.r, c.g, c.b, opacity);
+        serchRange.GetComponent<MeshRenderer>().material.color = c;
+        
+    }
     // Update is called once per frame
     void Update()
     {
@@ -94,18 +115,18 @@ public class Creature : MonoBehaviour
         }
         #endregion
 
-        if (state == EState.ATTACK  || 
-            state == EState.EAT     || 
-            state == EState.EXCRETE || 
-            state == EState.WAIT    || 
+        if (state == EState.ATTACK ||
+            state == EState.EAT ||
+            state == EState.EXCRETE ||
+            state == EState.WAIT ||
             state == EState.DAMAGE)
             return;
 
-        if (eatCount >= 10)
+        if (eatCount >= 20)
             Excreting();
 
         if (!target)
-            target = serchTag(gameObject, "Food");
+            target = SerchTag(gameObject, "Food");
         else
         {
             if (Vector3.Distance(transform.position, target.transform.position) < sensorDistance)
@@ -117,6 +138,7 @@ public class Creature : MonoBehaviour
             }
             else
             {
+                // Target lost.
                 target = null;
                 Wondering();
             }
@@ -132,25 +154,27 @@ public class Creature : MonoBehaviour
             eatingEffect.transform.localPosition = new Vector3(-1, 0.5f, 0);
             spriteRenderer.flipX = false;
         }
+       
+
     }
-    GameObject serchTag(GameObject nowObj, string tagName)
+    GameObject SerchTag(GameObject nowObj, string tagName)
     {
-        float tmpDis = 0;
-        float nearDis = 0;
-        GameObject targetObj = null;
+        float tempDistance = 0;
+        float nearestDistanse = 0;
+        GameObject targetObject = null;
 
         foreach (GameObject obs in GameObject.FindGameObjectsWithTag(tagName))
         {
-            tmpDis = Vector3.Distance(obs.transform.position, nowObj.transform.position);
+            tempDistance = Vector3.Distance(obs.transform.position, nowObj.transform.position);
 
-            if (nearDis == 0 || nearDis > tmpDis)
+            if (nearestDistanse == 0 || nearestDistanse > tempDistance)
             {
-                nearDis = tmpDis;
-                targetObj = obs;
+                nearestDistanse = tempDistance;
+                targetObject = obs;
             }
 
         }
-        return targetObj;
+        return targetObject;
     }
     private void ContactTarget(GameObject target)
     {
@@ -161,6 +185,11 @@ public class Creature : MonoBehaviour
                 Eating();
                 break;
             case "Player":
+                if (state == EState.ATTACK || state == EState.DAMAGE || state == EState.EAT || state == EState.EXCRETE)
+                    break;
+                Barking();
+                break;
+            case "Enemy":
                 Attacking();
                 break;
             default:
@@ -267,6 +296,12 @@ public class Creature : MonoBehaviour
         print("Waiting...");
 
     }
+
+    void Barking()
+    {
+        print("Barking");
+        //MasujimaRyohei.AudioManager.PlaySE("Barking");
+    }
     void Chasing(GameObject target)
     {
         agent.destination = target.transform.position;
@@ -305,6 +340,11 @@ public class Creature : MonoBehaviour
         eatCount = 0;
         print("Finished");
         state = EState.WONDER;
+    }
+
+    private void OnGUI()
+    {
+
     }
 }
 

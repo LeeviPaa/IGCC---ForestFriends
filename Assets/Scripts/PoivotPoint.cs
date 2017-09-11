@@ -43,7 +43,6 @@ public class PoivotPoint : MonoBehaviour {
             if (smoothTransValue < 1 && lerpRunning)
             {
                 smoothTransValue += Time.deltaTime*cameraLerpSpeed;
-                Debug.Log(smoothTransValue);
                 Vector3 tempPos = Vector3.zero;
                 tempPos.x = Mathf.SmoothStep(PreviousTargetPosition.x, TargetPosition.x, smoothTransValue);
                 tempPos.z = Mathf.SmoothStep(PreviousTargetPosition.z, TargetPosition.z, smoothTransValue);
@@ -64,7 +63,6 @@ public class PoivotPoint : MonoBehaviour {
         PreviousTargetPosition = Target.position;
         TargetPosition = newTarget;
         resetLerpVariables();
-        Debug.Log("Target changed "+ newTarget);
     }
 
     public void ResetTarget()

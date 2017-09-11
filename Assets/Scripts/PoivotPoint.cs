@@ -9,6 +9,8 @@ public class PoivotPoint : MonoBehaviour {
     private float elapsedLerpTime = 0;
     private bool lerpRunning = false;
 
+    private float smoothTransValue = 0;
+
     private Transform Target;
     private Vector3 TargetPosition;
     private Vector3 PreviousTargetPosition;
@@ -36,9 +38,23 @@ public class PoivotPoint : MonoBehaviour {
     }
 
 	void Update () {
-        if (MainCamHolder)
+        if (MainCamHolder )
         {
-            Target.position = Vector3.Lerp(Target.position, TargetPosition, cameraLerpSpeed);
+            if (smoothTransValue < 1 && lerpRunning)
+            {
+                smoothTransValue += Time.deltaTime*cameraLerpSpeed;
+                Debug.Log(smoothTransValue);
+                Vector3 tempPos = Vector3.zero;
+                tempPos.x = Mathf.SmoothStep(PreviousTargetPosition.x, TargetPosition.x, smoothTransValue);
+                tempPos.z = Mathf.SmoothStep(PreviousTargetPosition.z, TargetPosition.z, smoothTransValue);
+                Target.position = tempPos;
+            }
+            else if(smoothTransValue != 0)
+            {
+                lerpRunning = false;
+                smoothTransValue = 0;
+            }
+
             Target.position = new Vector3(Target.transform.position.x, MainCamHolder.transform.position.y, Target.transform.position.z);
             MainCamHolder.transform.LookAt(Target);
         }
@@ -47,7 +63,7 @@ public class PoivotPoint : MonoBehaviour {
     {
         PreviousTargetPosition = Target.position;
         TargetPosition = newTarget;
-        
+        resetLerpVariables();
         Debug.Log("Target changed "+ newTarget);
     }
 
@@ -55,6 +71,12 @@ public class PoivotPoint : MonoBehaviour {
     {
         PreviousTargetPosition = Target.position;
         TargetPosition = transform.position;
+        resetLerpVariables();
         Debug.Log("Target resetted" + TargetPosition);
+    }
+    private void resetLerpVariables()
+    {
+        lerpRunning = true;
+        smoothTransValue = 0;
     }
 }

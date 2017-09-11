@@ -15347,7 +15347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainCamHolder: {fileID: 1250789363}
-  cameraLerpSpeed: 0.05
+  cameraLerpSpeed: 0.75
 --- !u!1 &2047184379
 GameObject:
   m_ObjectHideFlags: 0

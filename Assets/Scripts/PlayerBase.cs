@@ -21,6 +21,7 @@ public class PlayerBase : MonoBehaviour {
     public Transform lookTarget;
 
     public LayerMask WalkLayer;
+    public LayerMask CollisionLayer;
     public GameObject UpperSprite;
     public GameObject LowerSprite;
     public float WalkingSpeed = 5;
@@ -117,7 +118,7 @@ public class PlayerBase : MonoBehaviour {
                 -transform.up);
 
             //move if there is ground below where we are moving
-            if (Physics.SphereCast(moveRay,0.3f, out hit, stepHeight * 2, WalkLayer))
+            if (Physics.SphereCast(moveRay,0.3f, out hit, stepHeight * 2, WalkLayer, QueryTriggerInteraction.Ignore))
             {
                 transform.position = new Vector3(
                     transform.position.x,
@@ -126,7 +127,7 @@ public class PlayerBase : MonoBehaviour {
 
 
                 moveRay = new Ray(transform.position, MovementInputVector);
-                if (!Physics.SphereCast(moveRay, 0.5f, out hit, MovementInputVector.magnitude))
+                if (!Physics.SphereCast(moveRay, 0.5f, out hit, MovementInputVector.magnitude,CollisionLayer,QueryTriggerInteraction.Ignore))
                 {
                     transform.Translate(MovementInputVector);
                 }
@@ -165,5 +166,9 @@ public class PlayerBase : MonoBehaviour {
 
         lookTarget.localPosition = (new Vector3(screenPointNormalized.x, 0, screenPointNormalized.y)/25);
         myMesh.transform.LookAt(lookTarget);
+    }
+    public void ChangeCameraTarget()
+    {
+
     }
 }

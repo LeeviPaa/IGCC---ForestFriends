@@ -6,6 +6,21 @@ public class Toolbox : Singleton<Toolbox>
 {
     protected Toolbox() { } // guarantee this will be always a singleton only - can't use the constructor!
     private EventManager E;
+
+    //some global functions
+    private PoivotPoint P;
+    public PoivotPoint Pivot
+    {
+        set
+        {
+            P = value;
+        }
+        get
+        {
+            return P;
+        }
+    }
+
     void Awake()
     {
         //E = RegisterComponent<EventManager>();

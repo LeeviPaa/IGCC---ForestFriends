@@ -109,7 +109,7 @@ public class PlayerBase : MonoBehaviour {
             }
 
             MovementInputVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * MovementSpeed * Time.deltaTime;
-
+            MovementInputVector = transform.TransformDirection(MovementInputVector);
             //Cliff detection
             Ray moveRay = new Ray(new Vector3(
                 transform.position.x, 
@@ -126,10 +126,15 @@ public class PlayerBase : MonoBehaviour {
                     transform.position.z);
 
 
-                moveRay = new Ray(transform.position, MovementInputVector);
-                if (!Physics.SphereCast(moveRay, 0.5f, out hit, MovementInputVector.magnitude,CollisionLayer,QueryTriggerInteraction.Ignore))
+                moveRay = new Ray(transform.position, MovementInputVector*2);
+                Debug.DrawRay(transform.position, MovementInputVector, Color.red, 0.25f);
+
+                Vector3 capsulePoint1 = transform.position + CharacterCollider.center + (Vector3.up * CharacterCollider.height / 2);
+                Vector3 capsulePoint2 = transform.position + CharacterCollider.center - (Vector3.up * CharacterCollider.height / 6);
+
+                if (!Physics.CapsuleCast(capsulePoint1, capsulePoint2, CharacterCollider.radius*1.1f, transform.TransformDirection( MovementInputVector), MovementInputVector.magnitude, CollisionLayer, QueryTriggerInteraction.Ignore))
                 {
-                    transform.Translate(MovementInputVector);
+                    transform.Translate(MovementInputVector, Space.World);
                 }
                 else
                 {
@@ -166,9 +171,5 @@ public class PlayerBase : MonoBehaviour {
 
         lookTarget.localPosition = (new Vector3(screenPointNormalized.x, 0, screenPointNormalized.y)/25);
         myMesh.transform.LookAt(lookTarget);
-    }
-    public void ChangeCameraTarget()
-    {
-
     }
 }

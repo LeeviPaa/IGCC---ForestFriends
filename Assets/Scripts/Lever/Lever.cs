@@ -41,11 +41,8 @@ public class Lever : MonoBehaviour, I_Interactable
     {
         if (isLeverSwitch)
         {
-            CorrespondenceInteract();
-
             if (lever.transform.rotation.z > -0.25f)
             {
-                Debug.Log(lever.transform.rotation.z);
                 lever.transform.Rotate(0, 0, -moveSpeed * Time.deltaTime);
             }
         }
@@ -53,7 +50,6 @@ public class Lever : MonoBehaviour, I_Interactable
         {
             if(lever.transform.rotation.z < 0.25f)
             {
-                Debug.Log(lever.transform.rotation.z);
                 lever.transform.Rotate(0, 0, moveSpeed * Time.deltaTime);
             }
         }
@@ -65,6 +61,8 @@ public class Lever : MonoBehaviour, I_Interactable
         if(Input.GetKeyDown(KeyCode.E) && isNear)
         {
             isLeverSwitch = !isLeverSwitch;
+
+            CorrespondenceInteract();
         }
     }
 

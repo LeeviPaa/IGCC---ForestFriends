@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/RyoheiTestScene.unity
+=======
+- path: Assets/Scenes/TestScenes/TestRockGenerator.unity
+>>>>>>> 46f16fef5702133261bef38d2fa5bc28bc670e57
   isLoaded: 1
   isActive: 1

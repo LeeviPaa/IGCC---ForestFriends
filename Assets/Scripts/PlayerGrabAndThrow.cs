@@ -72,8 +72,13 @@ public class PlayerGrabAndThrow : MonoBehaviour {
 
         foreach (Collider col in Physics.OverlapSphere(transform.position, 2.0f))
         {
-            if (col.tag == "Interactable")
+            if (col.GetComponent<MonoBehaviour>() is I_Interactable)
             {
+                if (Input.GetButtonDown("Interact"))
+                {
+                    I_Interactable I = (I_Interactable)col.GetComponent<MonoBehaviour>();
+                    I.Interact();
+                }
                 InteractableAround = true;
                 RingOutput.SetActive(true);
                 
@@ -83,9 +88,10 @@ public class PlayerGrabAndThrow : MonoBehaviour {
             {
                 InteractableAround = true;
                 RingOutput.SetActive(true);
-
+                
                 if (Input.GetButtonDown("Interact"))
                 {
+                    col.GetComponent<A_GrabbableObject>().GetGrabbed();
                     CheckObjectForGrab(col.gameObject);
                 }
             }

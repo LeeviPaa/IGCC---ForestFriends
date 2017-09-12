@@ -10,6 +10,8 @@ public class DoorTrigger : MonoBehaviour , I_Triggerable
     // OpenCheck
     [SerializeField]
     private bool doorOpen;
+    //MaxMovement
+    public float maxMovement = 2;
     // MoveRestriction
     private float openRestriction;
 
@@ -23,9 +25,9 @@ public class DoorTrigger : MonoBehaviour , I_Triggerable
     {
         if (doorOpen)
         {
-            if (openRestriction < 2.0f)
+            if (openRestriction < maxMovement)
             {
-                Debug.Log(openRestriction);
+                //Debug.Log(openRestriction);
                 openRestriction -= openSpeed * Time.deltaTime;
                 transform.Translate(0, openSpeed * Time.deltaTime, 0);
             }

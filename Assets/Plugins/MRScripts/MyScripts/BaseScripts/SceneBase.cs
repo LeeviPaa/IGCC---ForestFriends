@@ -29,7 +29,7 @@ namespace MasujimaRyohei
             manager.name = managerName.ToString();
             return manager;
         }
-        protected GameObject UseManager(Type className)
+        public static GameObject UseManager(Type className)
         {
             if (GameObject.Find(className.ToString() + "(Clone)") || GameObject.Find(className.ToString()))
                 return null;

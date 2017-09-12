@@ -90,6 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4507256489771756}
   - component: {fileID: 212390567422067760}
+  - component: {fileID: 95002056687575294}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -104,7 +105,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1203029328912462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.75, y: 5.6, z: 2.94}
+  m_LocalPosition: {x: -23.6711, y: 2.1, z: -2.2364945}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4804766637605004}
@@ -133,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 1800170729333238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.06718686, y: 0.06718686, z: 0.06718686}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 4804766637605004}
   m_RootOrder: 1
@@ -159,7 +160,7 @@ Transform:
   m_GameObject: {fileID: 1156678687996684}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.87988883, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4132550714283060}
   - {fileID: 4507256489771756}
@@ -222,8 +223,25 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.9802456, y: 2.0604608, z: 1}
-  m_Center: {x: 0.13400681, y: -0.04231894, z: 0}
+  m_Size: {x: 2.197733, y: 2.0604608, z: 1}
+  m_Center: {x: 0.0036096573, y: -0.04231894, z: 0}
+--- !u!95 &95002056687575294
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1800170729333238}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5b6a41ee20042d84dbbb0ab65b0fba59, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114161924411430382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,7 +266,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 195953956591206190}
   target: {fileID: 0}
-  spriteRenderer: {fileID: 212390567422067760}
+  sprite: {fileID: 1800170729333238}
+  animator: {fileID: 95002056687575294}
   ShowSerchRange: 1
   serchRange: {fileID: 1567975435839106}
   eatingEffect: {fileID: 1086117880089680}
@@ -355,7 +374,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1156678687996684}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.9
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -3714,7 +3733,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 523471d96854e8f4c984abe261c12eab, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 009fe7cf4166a4a4b8cd4c5f5642b6bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

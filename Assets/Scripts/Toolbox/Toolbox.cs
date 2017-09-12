@@ -25,6 +25,7 @@ public class Toolbox : Singleton<Toolbox>
     {
         //E = RegisterComponent<EventManager>();
         // Your initialization code here
+        MasujimaRyohei.SceneBase.UseManager(typeof(MasujimaRyohei.AudioManager));
     }
 
     static public T RegisterComponent<T>() where T : Component

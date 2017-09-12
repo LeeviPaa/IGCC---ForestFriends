@@ -13,7 +13,9 @@ public class Creature : MonoBehaviour
     private GameObject target;
 
     [SerializeField]
-    private SpriteRenderer spriteRenderer;
+    private GameObject sprite;
+    [SerializeField]
+    private Animator animator;
 
     public bool ShowSerchRange;
     [SerializeField]
@@ -61,6 +63,11 @@ public class Creature : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        animator = sprite.GetComponent<Animator>();
+        if (animator == null)
+            Debug.LogError("Animator not found!");
+
+
         Wondering();
 
 
@@ -73,7 +80,6 @@ public class Creature : MonoBehaviour
     {
         if (serchRange)
             serchRange.transform.position = new Vector3(transform.position.x, transform.position.y-1, transform.position.z);
-        print(opacity);
         serchRange.transform.localScale = new Vector3(sensorDistance * 2, 0.01f, sensorDistance * 2);
         var c = serchRange.GetComponent<MeshRenderer>().material.color;
         c = new Color(c.r, c.g, c.b, opacity);
@@ -87,27 +93,28 @@ public class Creature : MonoBehaviour
         switch (state)
         {
             case EState.WAIT:
-                print("WAIT");
+                //print("WAIT");
                 Waiting();
+         
                 break;
             case EState.WONDER:
-                print("WONDER");
+                //print("WONDER");
                 Wondering();
                 break;
             case EState.CHASE:
-                print("CHASE");
+                //print("CHASE");
                 Chasing(target);
                 break;
             case EState.ATTACK:
-                print("ATTACK");
+                //print("ATTACK");
                 Attacking();
                 break;
             case EState.EAT:
-                print("EAT");
+                //print("EAT");
                 Eating();
                 break;
             case EState.EXCRETE:
-                print("EXCRETE");
+                //print("EXCRETE");
                 Excreting();
                 break;
             default:
@@ -120,7 +127,10 @@ public class Creature : MonoBehaviour
             state == EState.EXCRETE ||
             state == EState.WAIT ||
             state == EState.DAMAGE)
+        {
+            print("returrrrrrrrrrrn");
             return;
+        }
 
         if (eatCount >= 20)
             Excreting();
@@ -143,20 +153,34 @@ public class Creature : MonoBehaviour
                 Wondering();
             }
         }
+        
+        if (agent.velocity.magnitude > 0)
+        {
+            print("moving");
+            animator.SetBool("isWalk", true);
 
-        if (agent.velocity.x > 0)
-        {
-            eatingEffect.transform.localPosition = new Vector3(1, 0.5f, 0);
-            spriteRenderer.flipX = true;
+            if (agent.velocity.x > 0)
+            {
+                eatingEffect.transform.localPosition = new Vector3(1, 0.5f, 0);
+                sprite.GetComponent<SpriteRenderer>().flipX = true;
+            }
+            else if (agent.velocity.x < 0)
+            {
+                eatingEffect.transform.localPosition = new Vector3(-1, 0.5f, 0);
+                sprite.GetComponent<SpriteRenderer>().flipX = false;
+            }
         }
-        else if (agent.velocity.x < 0)
+        else
         {
-            eatingEffect.transform.localPosition = new Vector3(-1, 0.5f, 0);
-            spriteRenderer.flipX = false;
+            print("freezing");
+            animator.SetBool("isWalk", false);
+
         }
-       
+
+
 
     }
+    
     GameObject SerchTag(GameObject nowObj, string tagName)
     {
         float tempDistance = 0;
@@ -211,6 +235,7 @@ public class Creature : MonoBehaviour
     IEnumerator EatCoroutine()
     {
         print("Start eating!!");
+        animator.SetBool("isEat", true);
 
         iTween.ScaleTo(target, iTween.Hash("x", 0, "y", 0, "z", 0, "time", 10.0f));
         target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
@@ -218,10 +243,9 @@ public class Creature : MonoBehaviour
         eatingEffect.SetActive(true);
         yield return new WaitForSeconds(1.4f);
         eatingEffect.SetActive(false);
-        eatCount++;
-        print(eatCount);
+        animator.SetBool("isEat", false);
 
-        print("Finished");
+        eatCount++;
 
         Destroy(target);
         Wondering();
@@ -282,7 +306,7 @@ public class Creature : MonoBehaviour
     {
         while (true)
         {
-            print("Set new destination");
+            //print("Set new destination");
             agent.destination = new Vector3(transform.position.x + Random.Range(-wonderLevel, wonderLevel), 0, transform.position.z + Random.Range(-wonderLevel, wonderLevel));
             yield return new WaitForSeconds(durationForSetDestination);
         }
@@ -292,6 +316,10 @@ public class Creature : MonoBehaviour
         if (state == EState.WAIT)
             return;
         state = EState.WAIT;
+
+        animator.SetBool("isEat", false);
+        animator.SetBool("isWalk", false);
+        animator.SetBool("isJump", false);
 
         print("Waiting...");
 

@@ -129,10 +129,11 @@ public class PlayerBase : MonoBehaviour {
                 moveRay = new Ray(transform.position, MovementInputVector*2);
                 Debug.DrawRay(transform.position, MovementInputVector, Color.red, 0.25f);
 
-                Vector3 capsulePoint1 = transform.position + CharacterCollider.center + (Vector3.up * CharacterCollider.height / 2);
-                Vector3 capsulePoint2 = transform.position + CharacterCollider.center - (Vector3.up * CharacterCollider.height / 6);
+                Vector3 capsulePoint1 = MovementInputVector + transform.position + CharacterCollider.center + (Vector3.up * CharacterCollider.height / 2);
+                Vector3 capsulePoint2 = MovementInputVector + transform.position + CharacterCollider.center - (Vector3.up * CharacterCollider.height / 6);
+                //!Physics.CapsuleCast(capsulePoint1, capsulePoint2, CharacterCollider.radius*1.1f, transform.TransformDirection( MovementInputVector), MovementInputVector.magnitude, CollisionLayer, QueryTriggerInteraction.Ignore)
 
-                if (!Physics.CapsuleCast(capsulePoint1, capsulePoint2, CharacterCollider.radius*1.1f, transform.TransformDirection( MovementInputVector), MovementInputVector.magnitude, CollisionLayer, QueryTriggerInteraction.Ignore))
+                if (!Physics.CheckCapsule(capsulePoint1, capsulePoint2, CharacterCollider.radius * 0.95f, CollisionLayer, QueryTriggerInteraction.Ignore))
                 {
                     transform.Translate(MovementInputVector, Space.World);
                 }

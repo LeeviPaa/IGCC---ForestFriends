@@ -33,7 +33,7 @@ public class Lever : MonoBehaviour, I_Interactable
     {
         LeverAnimation();
 
-        Interact();
+        //Interact();
     }
 
     // レバーのアニメーション
@@ -62,10 +62,13 @@ public class Lever : MonoBehaviour, I_Interactable
     // インタラクト
     public void Interact()
     {
-        if(Input.GetKeyDown(KeyCode.E) && isNear)
-        {
-            isLeverSwitch = !isLeverSwitch;
-        }
+        //The player checks for interactable object so we don't have to do it :)
+
+        //if(Input.GetKeyDown(KeyCode.E) && isNear)
+        //{
+        //    isLeverSwitch = !isLeverSwitch;
+        //}
+        isLeverSwitch = !isLeverSwitch;
     }
 
     public void CorrespondenceInteract()

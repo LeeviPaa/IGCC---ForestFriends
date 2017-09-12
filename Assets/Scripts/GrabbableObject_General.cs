@@ -4,13 +4,45 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GrabbableObject_General : A_GrabbableObject {
+
+    private GameObject particles;
+    private GameObject On;
+    private GameObject Off;
+    bool gate = false;
+
     public override void GetGrabbed()
     {
-        
+        if (!gate)
+        {
+            particles.SetActive(false);
+            particles.SetActive(true);
+            On.SetActive(true);
+            Off.SetActive(false);
+            gate = true;
+        }
     }
     // Use this for initialization
     public override void Start () {
         base.Start();
+        foreach(Transform child in transform)
+        {
+            if(child.name == "Rock_On")
+            {
+                On = child.gameObject;
+            }
+            if(child.name == "Rock_Off")
+            {
+                Off = child.gameObject;
+            }
+            if(child.name == "ParticleSystems")
+            {
+                particles = child.gameObject;
+                particles.SetActive(false);
+            }
+        }
+
+        On.SetActive(false);
+        Off.SetActive(true);
 	}
 	
 	// Update is called once per frame

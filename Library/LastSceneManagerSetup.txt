@@ -1,8 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
 - path: Assets/Scenes/TestScenes/TestRockGenerator.unity
-=======
-- path: Assets/Scenes/Scene1.unity
->>>>>>> 4d95c05de27a2a448389155bcef0e91a3c2e9447
   isLoaded: 1
   isActive: 1

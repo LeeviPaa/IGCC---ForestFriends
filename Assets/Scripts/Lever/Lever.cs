@@ -58,14 +58,6 @@ public class Lever : MonoBehaviour, I_Interactable
     // インタラクト
     public void Interact()
     {
-<<<<<<< HEAD
-        if(Input.GetKeyDown(KeyCode.E) && isNear)
-        {
-            isLeverSwitch = !isLeverSwitch;
-
-            CorrespondenceInteract();
-        }
-=======
         //The player checks for interactable object so we don't have to do it :)
 
         //if(Input.GetKeyDown(KeyCode.E) && isNear)
@@ -73,7 +65,7 @@ public class Lever : MonoBehaviour, I_Interactable
         //    isLeverSwitch = !isLeverSwitch;
         //}
         isLeverSwitch = !isLeverSwitch;
->>>>>>> 4d95c05de27a2a448389155bcef0e91a3c2e9447
+        CorrespondenceInteract();
     }
 
     public void CorrespondenceInteract()

@@ -79,7 +79,14 @@ public class PlayerBase : MonoBehaviour {
     /// </summary>
     void movement()
     {
-
+        //"gravity"
+        if (Physics.Raycast(transform.position, -transform.up, out hit, CharacterCollider.height / 2, WalkLayer, QueryTriggerInteraction.Ignore))
+        {
+            transform.position = new Vector3(
+                        transform.position.x,
+                        hit.point.y + (CharacterCollider.height / 2),
+                        transform.position.z);
+        }
         //Running
         if (Input.GetButton("Fire3"))
         {
@@ -127,7 +134,7 @@ public class PlayerBase : MonoBehaviour {
 
 
                 moveRay = new Ray(transform.position, MovementInputVector*2);
-                Debug.DrawRay(transform.position, MovementInputVector, Color.red, 0.25f);
+                //Debug.DrawRay(transform.position, MovementInputVector, Color.red, 0.25f);
 
                 Vector3 capsulePoint1 = MovementInputVector + transform.position + CharacterCollider.center + (Vector3.up * CharacterCollider.height / 2);
                 Vector3 capsulePoint2 = MovementInputVector + transform.position + CharacterCollider.center - (Vector3.up * CharacterCollider.height / 6);

@@ -13,7 +13,9 @@ public class Creature : MonoBehaviour
     private GameObject target;
 
     [SerializeField]
-    private SpriteRenderer spriteRenderer;
+    private GameObject sprite;
+    [SerializeField]
+    private Animator animator;
 
     public bool ShowSerchRange;
     [SerializeField]
@@ -31,12 +33,19 @@ public class Creature : MonoBehaviour
     [SerializeField]
     private float sensorDistance;
 
+    private bool isJumpLink;
+
+    private float gravity = 0;
+    private float normalizedTime = 0;
+
     [SerializeField]
     private float durationForSetDestination = 3.0f;
     [SerializeField]
     private float durationForAttack = 3.0f;
     [SerializeField]
     private float durationForDamage = 3.0f;
+    [SerializeField]
+    private float durationForEat = 1.4f;
 
     [SerializeField]
     private int eatCount = 0;
@@ -61,24 +70,39 @@ public class Creature : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (animator == null)
+            Debug.LogError("Animator not found!");
+
+        agent.autoTraverseOffMeshLink = false;
+
+
+        // First state.
         Wondering();
 
 
-        if(ShowSerchRange)
-        iTween.ValueTo(gameObject,
-            iTween.Hash(ItEx.from, 0, ItEx.to, 0.3f,ItEx.time,3,
-            ItEx.loopType, "pingpong", ItEx.onupdate, "UpdateSensorAnimation"));
+        // For serchable range animation.
+        if (ShowSerchRange)
+            iTween.ValueTo(gameObject,
+                iTween.Hash(ItEx.from, 0, ItEx.to, 0.3f, ItEx.time, 3,
+                ItEx.loopType, "pingpong", ItEx.onupdate, "UpdateSensorAnimation"));
     }
     void UpdateSensorAnimation(float opacity)
     {
-        if (serchRange)
-            serchRange.transform.position = new Vector3(transform.position.x, transform.position.y-1, transform.position.z);
-        print(opacity);
+        if (!serchRange)
+        {
+            Debug.LogError("Serch range not found!!");
+            return;
+        }
+
+        // For position and local scale.
+        serchRange.transform.position = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
         serchRange.transform.localScale = new Vector3(sensorDistance * 2, 0.01f, sensorDistance * 2);
+
+        // For opacity.
         var c = serchRange.GetComponent<MeshRenderer>().material.color;
         c = new Color(c.r, c.g, c.b, opacity);
         serchRange.GetComponent<MeshRenderer>().material.color = c;
-        
+
     }
     // Update is called once per frame
     void Update()
@@ -87,27 +111,22 @@ public class Creature : MonoBehaviour
         switch (state)
         {
             case EState.WAIT:
-                print("WAIT");
                 Waiting();
+
                 break;
             case EState.WONDER:
-                print("WONDER");
                 Wondering();
                 break;
             case EState.CHASE:
-                print("CHASE");
                 Chasing(target);
                 break;
             case EState.ATTACK:
-                print("ATTACK");
                 Attacking();
                 break;
             case EState.EAT:
-                print("EAT");
                 Eating();
                 break;
             case EState.EXCRETE:
-                print("EXCRETE");
                 Excreting();
                 break;
             default:
@@ -115,16 +134,22 @@ public class Creature : MonoBehaviour
         }
         #endregion
 
+        // There state don't allow to transition to other states.
         if (state == EState.ATTACK ||
             state == EState.EAT ||
             state == EState.EXCRETE ||
             state == EState.WAIT ||
             state == EState.DAMAGE)
+        {
+            print("returrrrrrrrrrrn");
             return;
+        }
 
+        // LOL.
         if (eatCount >= 20)
             Excreting();
 
+        // Serch nearest food.
         if (!target)
             target = SerchTag(gameObject, "Food");
         else
@@ -144,19 +169,41 @@ public class Creature : MonoBehaviour
             }
         }
 
-        if (agent.velocity.x > 0)
+
+        // For the flipping and animation, of sprite.
+        if (agent.velocity.magnitude > 0)
         {
-            eatingEffect.transform.localPosition = new Vector3(1, 0.5f, 0);
-            spriteRenderer.flipX = true;
+            print("moving");
+            animator.SetBool("isWalk", true);
+
+            if (agent.velocity.x > 0)
+            {
+                eatingEffect.transform.localPosition = new Vector3(1, 0.5f, 0);
+                sprite.GetComponent<SpriteRenderer>().flipX = true;
+            }
+            else if (agent.velocity.x < 0)
+            {
+                eatingEffect.transform.localPosition = new Vector3(-1, 0.5f, 0);
+                sprite.GetComponent<SpriteRenderer>().flipX = false;
+            }
         }
-        else if (agent.velocity.x < 0)
+        else
         {
-            eatingEffect.transform.localPosition = new Vector3(-1, 0.5f, 0);
-            spriteRenderer.flipX = false;
+            print("freezing");
+            animator.SetBool("isWalk", false);
+
         }
-       
+
+
 
     }
+
+    /// <summary>
+    /// Serch nearest object with tag.
+    /// </summary>
+    /// <param name="nowObj"></param>
+    /// <param name="tagName"></param>
+    /// <returns></returns>
     GameObject SerchTag(GameObject nowObj, string tagName)
     {
         float tempDistance = 0;
@@ -176,9 +223,13 @@ public class Creature : MonoBehaviour
         }
         return targetObject;
     }
+
+    /// <summary>
+    /// Excute when contact this object and target object.
+    /// </summary>
+    /// <param name="target"></param>
     private void ContactTarget(GameObject target)
     {
-        print(target.tag);
         switch (target.tag)
         {
             case "Food":
@@ -212,18 +263,30 @@ public class Creature : MonoBehaviour
     {
         print("Start eating!!");
 
+        animator.SetBool("isEat", true);
+
+        // Make smaller target food.
         iTween.ScaleTo(target, iTween.Hash("x", 0, "y", 0, "z", 0, "time", 10.0f));
+        // Freeze position of target food.
         target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        // Play se.
         MasujimaRyohei.AudioManager.PlaySE("LongEating");
+        // Activate eating effect.
         eatingEffect.SetActive(true);
-        yield return new WaitForSeconds(1.4f);
+        // Wait for this creture to finish eating.
+        yield return new WaitForSeconds(durationForEat);
+        // Inactivate eating effect.
         eatingEffect.SetActive(false);
+
+        animator.SetBool("isEat", false);
+
+        // Increment number of eating.
         eatCount++;
-        print(eatCount);
 
-        print("Finished");
-
+        // Destroy target food.
         Destroy(target);
+
+        // Next state is wonder.
         Wondering();
     }
 
@@ -282,7 +345,7 @@ public class Creature : MonoBehaviour
     {
         while (true)
         {
-            print("Set new destination");
+            //print("Set new destination");
             agent.destination = new Vector3(transform.position.x + Random.Range(-wonderLevel, wonderLevel), 0, transform.position.z + Random.Range(-wonderLevel, wonderLevel));
             yield return new WaitForSeconds(durationForSetDestination);
         }
@@ -292,6 +355,10 @@ public class Creature : MonoBehaviour
         if (state == EState.WAIT)
             return;
         state = EState.WAIT;
+
+        animator.SetBool("isEat", false);
+        animator.SetBool("isWalk", false);
+        animator.SetBool("isJump", false);
 
         print("Waiting...");
 
@@ -305,6 +372,38 @@ public class Creature : MonoBehaviour
     void Chasing(GameObject target)
     {
         agent.destination = target.transform.position;
+        OffMeshLinkData data;
+        Vector3 startPosition;
+        Vector3 endPosition;
+        if (agent.isOnOffMeshLink)
+        {
+            data = agent.currentOffMeshLinkData;
+            startPosition = data.startPos;
+            endPosition = data.endPos;
+            if (!isJumpLink)
+            {
+                animator.SetBool("isJump", true);
+                isJumpLink = true;
+            }
+
+            gravity += -Physics.gravity.y * Time.deltaTime;
+            normalizedTime += Time.deltaTime;
+            normalizedTime = Mathf.Clamp(normalizedTime, 0, 1);
+            var jumpHeight = 2.5f;
+            var offset = new Vector3(0, (1 - normalizedTime) * jumpHeight, 0);
+            transform.position = Vector3.Lerp(transform.position, endPosition, gravity * Time.deltaTime) + offset;
+
+            if(transform.position == endPosition)
+            {
+                agent.CompleteOffMeshLink();
+                normalizedTime = 0;
+                gravity = 0;
+                isJumpLink = false;
+                animator.SetBool("isJump", false);
+            }
+        }
+
+
         if (state == EState.CHASE)
             return;
         state = EState.CHASE;

@@ -9,7 +9,7 @@ public class NavmeshTestDummy : MonoBehaviour {
     RaycastHit hit;
     EventManager E;
     Toolbox T;
-
+    public LayerMask L;
     void Start()
     {
         E = Toolbox.RegisterComponent<EventManager>();
@@ -26,7 +26,7 @@ public class NavmeshTestDummy : MonoBehaviour {
 		if(Input.GetButtonDown("Fire1"))
         {
             screenpointToRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(screenpointToRay,out hit, Mathf.Infinity))
+            if(Physics.Raycast(screenpointToRay,out hit, Mathf.Infinity, L, QueryTriggerInteraction.Ignore))
             {
                 E.TransmitDogDestination(hit.point);
             }

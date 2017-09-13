@@ -8,6 +8,8 @@ public class Creature : MonoBehaviour
 {
     [SerializeField]
     private NavMeshAgent agent;
+    [SerializeField]
+    private Rigidbody rb;
 
     [SerializeField]
     private GameObject target;
@@ -38,6 +40,7 @@ public class Creature : MonoBehaviour
     private float gravity = 0;
     private float normalizedTime = 0;
 
+
     [SerializeField]
     private float durationForSetDestination = 3.0f;
     [SerializeField]
@@ -53,6 +56,7 @@ public class Creature : MonoBehaviour
     [SerializeField]
     private float wonderLevel = 3;
 
+    EventManager eventManager;
 
     enum EState
     {
@@ -70,6 +74,9 @@ public class Creature : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        // Enabled rigidbody.
+        rb.isKinematic = true;
+
         if (animator == null)
             Debug.LogError("Animator not found!");
 
@@ -393,7 +400,7 @@ public class Creature : MonoBehaviour
             var offset = new Vector3(0, (1 - normalizedTime) * jumpHeight, 0);
             transform.position = Vector3.Lerp(transform.position, endPosition, gravity * Time.deltaTime) + offset;
 
-            if(transform.position == endPosition)
+            if (transform.position == endPosition)
             {
                 agent.CompleteOffMeshLink();
                 normalizedTime = 0;
@@ -441,9 +448,25 @@ public class Creature : MonoBehaviour
         state = EState.WONDER;
     }
 
-    private void OnGUI()
+    private void OnEnable()
     {
-
+        eventManager = Toolbox.RegisterComponent<EventManager>();
+        eventManager.GiveDogDestination += RecievePosition;
+    }
+    private void OnDisable()
+    {
+        eventManager.GiveDogDestination -= RecievePosition;
+    }
+    void RecievePosition(Vector3 pos)
+    {
+        Debug.LogWarning("Position recieved : " + pos);
+        agent.SetDestination(pos);
+    }
+    public void switchAgentAndRigidbody()
+    {
+        agent.enabled = !agent.enabled;
+        rb.useGravity = !rb.useGravity;
+        rb.isKinematic = !rb.isKinematic;
     }
 }
 

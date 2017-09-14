@@ -9,6 +9,7 @@ TagManager:
   - Grabbable
   - Food
   - Apple
+  - Ball
   layers:
   - Default
   - TransparentFX

@@ -31,9 +31,12 @@ public class Elevator : MonoBehaviour, I_Triggerable
             return isMoving;
         }
     }
+    AudioSource A;
     // Use this for initialization
     void Start()
     {
+        A = GetComponentInChildren<AudioSource>();
+        A.volume = 0;
         isRise = true;
     }
 
@@ -53,10 +56,12 @@ public class Elevator : MonoBehaviour, I_Triggerable
             {
                 elevator.transform.Translate(0, riseSpeed * Time.deltaTime, 0);
                 isMoving = true;
+                A.volume = 1;
             }
             else
             {
                 isMoving = false;
+                A.volume = 0;
             }
         }
         else
@@ -65,10 +70,12 @@ public class Elevator : MonoBehaviour, I_Triggerable
             {
                 elevator.transform.Translate(0, -riseSpeed * Time.deltaTime, 0);
                 isMoving = true;
+                A.volume = 1;
             }
             else
             {
                 isMoving = false;
+                A.volume = 0;
             }
         }
     }

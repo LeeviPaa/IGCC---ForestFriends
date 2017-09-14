@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PuressurePlateTrigger : MonoBehaviour
 {
+    AudioSource A;
     // triggerableObject
     public GameObject triggerObject;
     public string TriggerTag;
@@ -19,6 +20,7 @@ public class PuressurePlateTrigger : MonoBehaviour
 
     private void Start()
     {
+        A = GetComponent<AudioSource>();
         isPush = false;
         pushRestriction = 0.0f;
     }
@@ -36,22 +38,25 @@ public class PuressurePlateTrigger : MonoBehaviour
         }
     }
 
-
-    private void OnTriggerStay(Collider collision)
+    bool trigger = false;
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.tag == TriggerTag)
         {
+            
             isTrigger = true;
-            if (triggerObject.GetComponent<MonoBehaviour>() is I_Triggerable)
+            if (triggerObject.GetComponent<MonoBehaviour>() is I_Triggerable && !trigger)
             {
+                trigger = false;
                 I_Triggerable Interactable = (I_Triggerable)triggerObject.GetComponent<MonoBehaviour>();
                 Interactable.triggerable();
+                A.Play();
             }
             if (pushRestriction < 0.1f)
             {
                 Debug.Log(pushRestriction);
-                pushRestriction -= -3.0f * Time.deltaTime;
-                transform.Translate(0, -3.0f * Time.deltaTime, 0);
+                pushRestriction -= -3.0f;
+                transform.Translate(0, -0.1f, 0);
             }
         }
     }

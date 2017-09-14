@@ -21,9 +21,11 @@ public class Lever : MonoBehaviour, I_Interactable
     // スイッチに対応したオブジェクト
     public GameObject[] correspondenceObject;
 
+    AudioSource A;
     // Use this for initialization
     void Start()
     {
+        A = GetComponent<AudioSource>();
         isLeverSwitch = false;
         isNear = false;
     }
@@ -66,6 +68,7 @@ public class Lever : MonoBehaviour, I_Interactable
         //}
         isLeverSwitch = !isLeverSwitch;
         CorrespondenceInteract();
+        A.Play();
     }
 
     public void CorrespondenceInteract()

@@ -9,9 +9,10 @@ public class CheckpointCube : MonoBehaviour {
     public List<Material> matList = new List<Material>();
     private MeshRenderer M;
     private bool gate = false;
-
+    private AudioSource A;
     void Start()
     {
+        A = GetComponent<AudioSource>();
         M = transform.GetComponent<MeshRenderer>();
         M.material = matList[1];
         bool childFound = false;
@@ -41,6 +42,10 @@ public class CheckpointCube : MonoBehaviour {
             if(M != null)
             {
                 M.material = matList[0];
+            }
+            if(A != null)
+            {
+                A.Play();
             }
         }
     }

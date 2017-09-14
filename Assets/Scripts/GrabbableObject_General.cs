@@ -9,7 +9,7 @@ public class GrabbableObject_General : A_GrabbableObject {
     private GameObject On;
     private GameObject Off;
     bool gate = false;
-
+    AudioSource AS;
     public override void GetGrabbed()
     {
         if (!gate)
@@ -40,10 +40,16 @@ public class GrabbableObject_General : A_GrabbableObject {
                 particles.SetActive(false);
             }
         }
-
+        AS = GetComponent<AudioSource>();
         On.SetActive(false);
         Off.SetActive(true);
 	}
+
+    void OnCollisionEnter(Collision other)
+    {
+        if(other.relativeVelocity.magnitude > 1 && AS != null)
+            AS.Play();
+    }
 	
 	// Update is called once per frame
 	public override void Update () {

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/TestScenes/GimmickTestScene.unity
+- path: Assets/Scenes/TestScenes/TestCamera.unity
   isLoaded: 1
   isActive: 1

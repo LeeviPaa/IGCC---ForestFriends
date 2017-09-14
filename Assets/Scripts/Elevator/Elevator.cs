@@ -19,6 +19,15 @@ public class Elevator : MonoBehaviour, I_Triggerable
     [SerializeField]
     private float riseSpeed;
 
+
+    private bool isMoving = false;
+    public bool IsMoving
+    {
+        get
+        {
+            return isMoving;
+        }
+    }
     // Use this for initialization
     void Start()
     {
@@ -28,7 +37,7 @@ public class Elevator : MonoBehaviour, I_Triggerable
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(elevator.transform.position.y);
+        //Debug.Log(elevator.transform.position.y);
 
         MoveElevator();
     }
@@ -40,6 +49,11 @@ public class Elevator : MonoBehaviour, I_Triggerable
             if (elevator.transform.position.y < upperPos.transform.position.y)
             {
                 elevator.transform.Translate(0, riseSpeed * Time.deltaTime, 0);
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
             }
         }
         else
@@ -47,6 +61,11 @@ public class Elevator : MonoBehaviour, I_Triggerable
             if (elevator.transform.position.y > lowerPos.transform.position.y)
             {
                 elevator.transform.Translate(0, -riseSpeed * Time.deltaTime, 0);
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
             }
         }
     }

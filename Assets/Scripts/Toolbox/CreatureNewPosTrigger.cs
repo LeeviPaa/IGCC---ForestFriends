@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CreatureNewPosTrigger : MonoBehaviour {
 
-    Toolbox T = Toolbox.Instance;
     EventManager E;
 
     public Transform dogDestination;

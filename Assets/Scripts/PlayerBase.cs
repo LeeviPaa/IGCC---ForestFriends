@@ -80,7 +80,7 @@ public class PlayerBase : MonoBehaviour {
     void movement()
     {
         //"gravity"
-        if (Physics.Raycast(transform.position, -transform.up, out hit, CharacterCollider.height / 2, WalkLayer, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(transform.position, -transform.up, out hit, CharacterCollider.height / 1.75f, WalkLayer, QueryTriggerInteraction.Ignore))
         {
             transform.position = new Vector3(
                         transform.position.x,

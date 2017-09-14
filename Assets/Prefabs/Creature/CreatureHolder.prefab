@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 114161924411430382}
   - component: {fileID: 120807941379266062}
   - component: {fileID: 114637739301775808}
+  - component: {fileID: 54766653333206690}
   m_Layer: 0
   m_Name: Creature
   m_TagString: Untagged
@@ -82,6 +83,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1720674080045376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4650639964436582}
+  m_Layer: 0
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1800170729333238
 GameObject:
   m_ObjectHideFlags: 1
@@ -106,11 +122,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1203029328912462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.672203, y: 2.14, z: -1.79}
+  m_LocalPosition: {x: -18.672203, y: 2.14, z: -7.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4804766637605004}
   - {fileID: 4761682921051002}
+  - {fileID: 4650639964436582}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -139,6 +156,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4804766637605004}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4650639964436582
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1720674080045376}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4129512997042796}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4761682921051002
 Transform:
@@ -214,6 +244,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1567975435839106}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &54766653333206690
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156678687996684}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65329406487839398
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -221,7 +266,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1156678687996684}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.1201341, y: 1.8191646, z: 1.1264956}
@@ -266,22 +311,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 195953956591206190}
-  target: {fileID: 0}
+  rb: {fileID: 54766653333206690}
   sprite: {fileID: 1800170729333238}
   animator: {fileID: 95002056687575294}
-  ShowSerchRange: 1
   serchRange: {fileID: 1567975435839106}
   eatingEffect: {fileID: 1086117880089680}
   exclamationEffect: {fileID: 1235096328526094, guid: 6a9f57721485b9b4198374e7866d904c,
     type: 2}
   excrement: {fileID: 1195241676669868, guid: cb90a72fa97f71848bde8db5c767e351, type: 2}
-  sensorDistance: 20
+  ShowSerchRange: 1
+  sensorDistance: 10
   durationForSetDestination: 3
   durationForAttack: 3
   durationForDamage: 3
   durationForEat: 1.4
-  eatCount: 0
   wonderLevel: 3
+  eatCount: 0
 --- !u!114 &114637739301775808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -294,6 +339,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
+  targetSignObject: {fileID: 1720674080045376}
+  remainingDistance: 0
 --- !u!120 &120807941379266062
 LineRenderer:
   m_ObjectHideFlags: 1

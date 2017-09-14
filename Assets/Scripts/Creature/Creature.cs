@@ -6,41 +6,46 @@ using ItEx = MasujimaRyohei.iTweenExtensions;
 
 public class Creature : MonoBehaviour
 {
+    // These variables NEED attach components.
     [SerializeField]
     private NavMeshAgent agent;
     [SerializeField]
     private Rigidbody rb;
-
-    [SerializeField]
-    private GameObject target;
-
     [SerializeField]
     private GameObject sprite;
     [SerializeField]
     private Animator animator;
-
-    public bool ShowSerchRange;
     [SerializeField]
     private GameObject serchRange;
-
     [SerializeField]
     private GameObject eatingEffect;
-
     [SerializeField]
     private GameObject exclamationEffect;
-
     [SerializeField]
     private GameObject excrement;
 
+
+    private EventManager eventManager;
+    private GameObject target;
+
+    // For debug.
+    [SerializeField]
+    private bool ShowSerchRange;
     [SerializeField]
     private float sensorDistance;
 
-    private bool isJumpLink;
 
+
+    // For move on off mesh link.
+    private OffMeshLinkData data;
+    private Vector3 startPosition;
+    private Vector3 endPosition;
+    private bool isJumpLink;
     private float gravity = 0;
     private float normalizedTime = 0;
 
 
+    // For any durations.
     [SerializeField]
     private float durationForSetDestination = 3.0f;
     [SerializeField]
@@ -50,23 +55,26 @@ public class Creature : MonoBehaviour
     [SerializeField]
     private float durationForEat = 1.4f;
 
-    [SerializeField]
-    private int eatCount = 0;
-
+    // Wondering area's radius.
     [SerializeField]
     private float wonderLevel = 3;
 
-    EventManager eventManager;
+    // LOL.
+    [SerializeField]
+    private int eatCount = 0;
+
+
 
     enum EState
     {
-        WAIT,
-        WONDER,
-        CHASE,
-        ATTACK,
-        DAMAGE,
-        EAT,
-        EXCRETE,
+        WAIT,   // don't move.
+        WONDER, // Wondering in wonderLevel range. 
+        CHASE,  // to target.
+        ATTACK, // Nonimplement.
+        DAMAGE, // Nonimplement.
+        EAT,    // to target when target is any food.
+        MOVE_TO_NEXT_SCENE, // When transition next destination.
+        EXCRETE,// LOL.
         NONE
     }
 
@@ -114,42 +122,23 @@ public class Creature : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        #region States
-        switch (state)
-        {
-            case EState.WAIT:
-                Waiting();
 
-                break;
-            case EState.WONDER:
-                Wondering();
-                break;
-            case EState.CHASE:
-                Chasing(target);
-                break;
-            case EState.ATTACK:
-                Attacking();
-                break;
-            case EState.EAT:
-                Eating();
-                break;
-            case EState.EXCRETE:
-                Excreting();
-                break;
-            default:
-                break;
-        }
-        #endregion
 
         // There state don't allow to transition to other states.
-        if (state == EState.ATTACK ||
-            state == EState.EAT ||
+        if (state == EState.ATTACK  ||
+            state == EState.EAT     ||
             state == EState.EXCRETE ||
-            state == EState.WAIT ||
-            state == EState.DAMAGE)
+            state == EState.WAIT    ||
+            state == EState.DAMAGE  ||
+            state == EState.MOVE_TO_NEXT_SCENE)
         {
-            print("returrrrrrrrrrrn");
             return;
+        }
+
+        // When use off mesh link. So creature contact to off mesh link's start position.
+        if (agent.isOnOffMeshLink)
+        {
+            WhenContactOffMeshLink();
         }
 
         // LOL.
@@ -180,7 +169,6 @@ public class Creature : MonoBehaviour
         // For the flipping and animation, of sprite.
         if (agent.velocity.magnitude > 0)
         {
-            print("moving");
             animator.SetBool("isWalk", true);
 
             if (agent.velocity.x > 0)
@@ -196,7 +184,6 @@ public class Creature : MonoBehaviour
         }
         else
         {
-            print("freezing");
             animator.SetBool("isWalk", false);
 
         }
@@ -243,7 +230,10 @@ public class Creature : MonoBehaviour
                 Eating();
                 break;
             case "Player":
-                if (state == EState.ATTACK || state == EState.DAMAGE || state == EState.EAT || state == EState.EXCRETE)
+                if (state == EState.ATTACK || 
+                    state == EState.DAMAGE || 
+                    state == EState.EAT    || 
+                    state == EState.EXCRETE)
                     break;
                 Barking();
                 break;
@@ -268,12 +258,12 @@ public class Creature : MonoBehaviour
     }
     IEnumerator EatCoroutine()
     {
-        print("Start eating!!");
-
         animator.SetBool("isEat", true);
 
+        // For animation waiting time.
+        yield return new WaitForSeconds(0.5f);
         // Make smaller target food.
-        iTween.ScaleTo(target, iTween.Hash("x", 0, "y", 0, "z", 0, "time", 10.0f));
+        iTween.ScaleTo(target, iTween.Hash("x", 0, "y", 0, "z", 0, ItEx.time, 10.0f));
         // Freeze position of target food.
         target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         // Play se.
@@ -379,36 +369,7 @@ public class Creature : MonoBehaviour
     void Chasing(GameObject target)
     {
         agent.destination = target.transform.position;
-        OffMeshLinkData data;
-        Vector3 startPosition;
-        Vector3 endPosition;
-        if (agent.isOnOffMeshLink)
-        {
-            data = agent.currentOffMeshLinkData;
-            startPosition = data.startPos;
-            endPosition = data.endPos;
-            if (!isJumpLink)
-            {
-                animator.SetBool("isJump", true);
-                isJumpLink = true;
-            }
 
-            gravity += -Physics.gravity.y * Time.deltaTime;
-            normalizedTime += Time.deltaTime;
-            normalizedTime = Mathf.Clamp(normalizedTime, 0, 1);
-            var jumpHeight = 2.5f;
-            var offset = new Vector3(0, (1 - normalizedTime) * jumpHeight, 0);
-            transform.position = Vector3.Lerp(transform.position, endPosition, gravity * Time.deltaTime) + offset;
-
-            if (transform.position == endPosition)
-            {
-                agent.CompleteOffMeshLink();
-                normalizedTime = 0;
-                gravity = 0;
-                isJumpLink = false;
-                animator.SetBool("isJump", false);
-            }
-        }
 
 
         if (state == EState.CHASE)
@@ -416,14 +377,7 @@ public class Creature : MonoBehaviour
         state = EState.CHASE;
 
         StopAllCoroutines();
-        StartCoroutine(ChaseCoroutine());
-    }
-
-    IEnumerator ChaseCoroutine()
-    {
-        var go = Instantiate(exclamationEffect, new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z), Quaternion.identity);
-        yield return new WaitForSeconds(0.1f);
-        Destroy(go);
+        var go = Instantiate(exclamationEffect, new Vector3(transform.position.x, transform.position.y + 1.8f, transform.position.z), Quaternion.identity);
     }
     void Excreting()
     {
@@ -445,7 +399,7 @@ public class Creature : MonoBehaviour
         Instantiate(excrement, transform.position, Quaternion.identity);
         eatCount = 0;
         print("Finished");
-        state = EState.WONDER;
+        Wondering();
     }
 
     private void OnEnable()
@@ -462,11 +416,51 @@ public class Creature : MonoBehaviour
         Debug.LogWarning("Position recieved : " + pos);
         agent.SetDestination(pos);
     }
-    public void switchAgentAndRigidbody()
+    public void SwitchAgentAndRigidbody()
     {
         agent.enabled = !agent.enabled;
         rb.useGravity = !rb.useGravity;
         rb.isKinematic = !rb.isKinematic;
     }
+    public GameObject GetCurrentTarget()
+    {
+        return target;
+    }
+    private void WhenContactOffMeshLink()
+    {
+   
+
+            data = agent.currentOffMeshLinkData;
+            startPosition = data.startPos;
+            endPosition = data.endPos;
+
+            // When don't jumping.
+            if (!isJumpLink)
+            {
+                animator.SetBool("isJump", true);
+                isJumpLink = true;
+            }
+
+            gravity += -Physics.gravity.y * Time.deltaTime;
+            normalizedTime += Time.deltaTime;
+            normalizedTime = Mathf.Clamp(normalizedTime, 0, 1);
+            var jumpHeight = 1f;
+            var offset = new Vector3(0, (1 - normalizedTime) * jumpHeight, 0);
+            transform.position = Vector3.Lerp(transform.position, endPosition, gravity * Time.deltaTime) + offset;
+
+            if (transform.position == endPosition)
+            {
+                print("Landing");
+                agent.CompleteOffMeshLink();
+                normalizedTime = 0;
+                gravity = 0;
+                isJumpLink = false;
+                animator.SetBool("isJump", false);
+            }
+            else
+            {
+                print("Haven't arrived yet");
+            }
+        }
 }
 

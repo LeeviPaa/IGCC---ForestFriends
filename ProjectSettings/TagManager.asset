@@ -4,16 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Obstacle
-  - Interactable
-  - Grabbable
   - Food
-  - Apple
-<<<<<<< HEAD
-  - ChangeTarget
-=======
-  - Creature
->>>>>>> fba11a5bc3c13e088a2d0d5ef0dbe20944b42289
+  - Grabbable
   layers:
   - Default
   - TransparentFX
@@ -23,9 +15,9 @@ TagManager:
   - UI
   - 
   - 
-  - WalkableTerrain
-  - PostProcessing
-  - Player
+  - 
+  - 
+  - 
   - 
   - 
   - 

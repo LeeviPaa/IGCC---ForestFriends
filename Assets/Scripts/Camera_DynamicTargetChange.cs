@@ -26,14 +26,14 @@ public class Camera_DynamicTargetChange : MonoBehaviour {
             Debug.LogError(gameObject.name + " TargetNotFound");
 	}
 
-    void OnTriggerEnter()
+    void OnTriggerEnter(Collider other)
     {
-        if (P != null && CameraTarget != null)
+        if (P != null && CameraTarget != null && other.tag == "Player")
             P.ChangeTarget(CameraTarget.position);
     }
-    void OnTriggerExit()
+    void OnTriggerExit(Collider other)
     {
-        if (P != null)
+        if (P != null && other.tag == "Player")
             P.ResetTarget();
     }
 }

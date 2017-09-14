@@ -38,7 +38,7 @@ public class PoivotPoint : MonoBehaviour {
     }
 
 	void Update () {
-        if (MainCamHolder )
+        if (MainCamHolder != null && Target != null)
         {
             if (smoothTransValue < 1 && lerpRunning)
             {
@@ -53,6 +53,7 @@ public class PoivotPoint : MonoBehaviour {
                 lerpRunning = false;
                 smoothTransValue = 0;
             }
+
 
             Target.position = new Vector3(Target.transform.position.x, MainCamHolder.transform.position.y, Target.transform.position.z);
             MainCamHolder.transform.LookAt(Target);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Elevator : MonoBehaviour, I_Triggerable
+public class Elevator1 : MonoBehaviour, I_Triggerable
 {
     // 搭乗口地点
     public Transform lowerPos;

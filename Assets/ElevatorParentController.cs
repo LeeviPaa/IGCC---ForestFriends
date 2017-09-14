@@ -47,6 +47,7 @@ public class ElevatorParentController : MonoBehaviour {
             trigger = true;
             creature.GetComponent<NavMeshAgent>().enabled = false;
             creature.GetComponent<Creature>().enabled = false;
+            creature.GetComponent<CreatureProperty>().enabled = false;
             creature.transform.SetParent(holder.transform);
         }
 
@@ -57,6 +58,7 @@ public class ElevatorParentController : MonoBehaviour {
             trigger = false;
             creature.GetComponent<NavMeshAgent>().enabled = true;
             creature.GetComponent<Creature>().enabled = true;
+            creature.GetComponent<CreatureProperty>().enabled = true;
             creature.transform.SetParent(prevtransform);
             //creature.SetActive(false);
             //creature.SetActive(true);

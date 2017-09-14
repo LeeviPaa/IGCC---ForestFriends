@@ -14,6 +14,8 @@ public class PlayerBase : MonoBehaviour {
     private SpriteRenderer UpperSpriteRender;
     private CapsuleCollider CharacterCollider;
 
+    public float isIntroFinishTime = 5f; 
+
     //Animation
     private bool Moving = false;
 
@@ -24,6 +26,7 @@ public class PlayerBase : MonoBehaviour {
     public LayerMask CollisionLayer;
     public GameObject UpperSprite;
     public GameObject LowerSprite;
+    public GameObject IntroSprite;
     public float WalkingSpeed = 5;
     public float RunningSpeed = 10;
     public float stepHeight = 0.1f;
@@ -40,6 +43,7 @@ public class PlayerBase : MonoBehaviour {
                 myMesh = child.gameObject;   
             }
         }
+
         if (LowerSprite.GetComponent<Animator>() && UpperSprite.GetComponent<Animator>())
         {
             LowerSpriteAnimator = LowerSprite.GetComponent<Animator>();
@@ -62,6 +66,8 @@ public class PlayerBase : MonoBehaviour {
             Debug.LogError("Sprite renderer not found");
         }
 
+
+
         CharacterCollider = transform.GetComponent<CapsuleCollider>();
         //get reference to the main camera
         mainCamera = Camera.main;
@@ -70,6 +76,14 @@ public class PlayerBase : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        isIntroFinishTime -= Time.deltaTime;
+
+        if (isIntroFinishTime < 0)
+        {
+            LowerSprite.SetActive(true);
+            UpperSprite.SetActive(true);
+        }
+
         rotation();
         movement();
 	}

@@ -402,7 +402,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1061722111710936}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.522, y: 0.46, z: 0}
+  m_LocalPosition: {x: -1.38, y: 0.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4277926013761902}
@@ -533,7 +533,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1868995339852286}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.387, y: 0.45999908, z: 0}
+  m_LocalPosition: {x: -0.52, y: 0.45999908, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4277926013761902}
@@ -639,7 +639,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1060130428091490}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 35.997, y: 30.47, z: 36.603}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 1, z: 3}
   m_Children:
   - {fileID: 4413474573286532}
@@ -758,14 +758,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1060130428091490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d831095aa181b634f870871f0756a96a, type: 3}
+  m_Script: {fileID: 11500000, guid: 1aabd8d7db67dc24d8f1359e778baf6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   elevator: {fileID: 1986483400901274}
   lowerPos: {fileID: 4284318946961024}
   upperPos: {fileID: 4420429584408274}
   isRise: 0
-  riseSpeed: 5
+  riseSpeed: 0.1
 --- !u!191 &191144871812118540
 OffMeshLink:
   m_ObjectHideFlags: 1

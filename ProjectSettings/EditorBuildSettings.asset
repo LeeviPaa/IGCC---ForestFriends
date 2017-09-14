@@ -6,5 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Scene1.unity
+    guid: 697d00c2488a8a34bb3f69ba612dc874
+  - enabled: 1
     path: Assets/Scenes/RyoheiTestScene.unity
     guid: 5a52e20c783e59b4f8f3126498b3e600

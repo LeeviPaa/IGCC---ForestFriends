@@ -132,7 +132,9 @@ public class Tree : MonoBehaviour
     {
         for (int i = 0; i < CreateAmount; i++)
         {
-            Instantiate(instanceObject, responPoint[i].transform.position, Quaternion.identity, transform);
+            GameObject G = Instantiate(instanceObject, responPoint[i].transform.position, Quaternion.identity, transform);
+            G.transform.localScale = Vector3.one/3;
+            G.transform.parent = null;
         }
     }
 

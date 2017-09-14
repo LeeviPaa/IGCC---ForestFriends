@@ -70,7 +70,7 @@ public class Tree : MonoBehaviour
             {
                 if (child.CompareTag("Apple"))
                 {
-                    Debug.Log("ここまできた");
+                    child.gameObject.GetComponent<Apple>().enabled = true;
                     child.gameObject.GetComponent<Rigidbody>().useGravity = true;
                     child.tag = "Food";
                     child.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -79,8 +79,6 @@ public class Tree : MonoBehaviour
             }
 
             growingTime -= Time.deltaTime;
-
-            Debug.Log(growingTime);
 
             if (growingTime < 0.0f)
             {

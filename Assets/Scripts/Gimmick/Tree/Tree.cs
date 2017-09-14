@@ -66,17 +66,17 @@ public class Tree : MonoBehaviour
 
         if (!isGrowing)
         {
-            foreach (Transform child in transform)
-            {
-                if (child.CompareTag("Apple"))
-                {
-                    child.gameObject.GetComponent<Apple>().enabled = true;
-                    child.gameObject.GetComponent<Rigidbody>().useGravity = true;
-                    child.tag = "Food";
-                    child.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                    child.transform.parent = null;
-                }
-            }
+            //foreach (Transform child in transform)
+            //{
+            //    if (child.CompareTag("Apple"))
+            //    {
+            //        child.gameObject.GetComponent<Apple>().enabled = true;
+            //        child.gameObject.GetComponent<Rigidbody>().useGravity = true;
+            //        child.tag = "Food";
+            //        child.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            //        child.transform.parent = null;
+            //    }
+            //}
 
             growingTime -= Time.deltaTime;
 

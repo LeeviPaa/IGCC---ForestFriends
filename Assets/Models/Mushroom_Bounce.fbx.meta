@@ -1,0 +1,126 @@
+fileFormatVersion: 2
+guid: 75ad230b83bfee54ba3798daa10a0d2d
+timeCreated: 1505291647
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Mush_1
+    100002: mush_2
+    100004: Mush_3
+    100006: Mush_4
+    100008: //RootNode
+    100010: Mushroom_Control_
+    100012: Mushroom_Control_1
+    100014: Mushroom_Control_2
+    100016: Mushroom_Control_3
+    100018: Mushroom_Control_Main
+    100020: Mushroom_Main_Control1
+    100022: Mushy1
+    100024: Mushy_1
+    100026: Mushy_1_1
+    100028: Mushy_1_2
+    100030: Mushy_1_3
+    100032: Mushy_1_4
+    100034: nurbsCircle2
+    100036: nurbsCircle3
+    100038: nurbsCircle4
+    400000: Mush_1
+    400002: mush_2
+    400004: Mush_3
+    400006: Mush_4
+    400008: //RootNode
+    400010: Mushroom_Control_
+    400012: Mushroom_Control_1
+    400014: Mushroom_Control_2
+    400016: Mushroom_Control_3
+    400018: Mushroom_Control_Main
+    400020: Mushroom_Main_Control1
+    400022: Mushy1
+    400024: Mushy_1
+    400026: Mushy_1_1
+    400028: Mushy_1_2
+    400030: Mushy_1_3
+    400032: Mushy_1_4
+    400034: nurbsCircle2
+    400036: nurbsCircle3
+    400038: nurbsCircle4
+    4300000: Mushy1
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Mushy1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 33634568116655874}
   - component: {fileID: 114161924411430382}
   - component: {fileID: 120807941379266062}
+  - component: {fileID: 114637739301775808}
   m_Layer: 0
   m_Name: Creature
   m_TagString: Untagged
@@ -105,7 +106,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1203029328912462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.6711, y: 2.1, z: -2.2364945}
+  m_LocalPosition: {x: -18.672203, y: 2.14, z: -1.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4804766637605004}
@@ -133,7 +134,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1800170729333238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.137, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 4804766637605004}
@@ -159,8 +160,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1156678687996684}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.95, y: 1.82, z: 4.35}
+  m_LocalScale: {x: 1.1961625, y: 1.1961625, z: 1.1961625}
   m_Children:
   - {fileID: 4132550714283060}
   - {fileID: 4507256489771756}
@@ -223,8 +224,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.197733, y: 2.0604608, z: 1}
-  m_Center: {x: 0.0036096573, y: -0.04231894, z: 0}
+  m_Size: {x: 1.1201341, y: 1.8191646, z: 1.1264956}
+  m_Center: {x: 0.018231869, y: -0.010523002, z: -0.0034208696}
 --- !u!95 &95002056687575294
 Animator:
   serializedVersion: 3
@@ -274,12 +275,25 @@ MonoBehaviour:
   exclamationEffect: {fileID: 1235096328526094, guid: 6a9f57721485b9b4198374e7866d904c,
     type: 2}
   excrement: {fileID: 1195241676669868, guid: cb90a72fa97f71848bde8db5c767e351, type: 2}
-  sensorDistance: 10
+  sensorDistance: 20
   durationForSetDestination: 3
   durationForAttack: 3
   durationForDamage: 3
+  durationForEat: 1.4
   eatCount: 0
   wonderLevel: 3
+--- !u!114 &114637739301775808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156678687996684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae6cf5c0c9d3aab4ea210963316cce33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destination: {x: 0, y: 0, z: 0}
 --- !u!120 &120807941379266062
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -374,7 +388,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1156678687996684}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.9
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -3732,7 +3746,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 009fe7cf4166a4a4b8cd4c5f5642b6bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

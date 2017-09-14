@@ -5,11 +5,14 @@ using UnityEngine;
 public class Elevator : MonoBehaviour, I_Triggerable
 {
     // エレベーター
-    public GameObject elevator;
+    [SerializeField]
+    private GameObject elevator;
 
     // 搭乗口地点
-    public Transform lowerPos;
-    public Transform upperPos;
+    [SerializeField]
+    private Transform lowerPos;
+    [SerializeField]
+    private Transform upperPos;
 
     // 上昇・下降フラグ
     [SerializeField]

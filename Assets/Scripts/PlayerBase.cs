@@ -76,13 +76,13 @@ public class PlayerBase : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        isIntroFinishTime -= Time.deltaTime;
+        //isIntroFinishTime -= Time.deltaTime;
 
-        if (isIntroFinishTime < 0)
-        {
-            LowerSprite.SetActive(true);
-            UpperSprite.SetActive(true);
-        }
+        //if (isIntroFinishTime < 0)
+        //{
+        //    LowerSprite.SetActive(true);
+        //    UpperSprite.SetActive(true);
+        //}
 
         rotation();
         movement();

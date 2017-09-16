@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItroSprite : MonoBehaviour {
 
-
+    public GameObject Player;
     public float destroyTime;
 
 	// Use this for initialization
@@ -18,6 +18,9 @@ public class ItroSprite : MonoBehaviour {
         destroyTime -= Time.deltaTime;
 
         if (destroyTime < 0)
+        {
+            Player.SetActive(true);
             Destroy(gameObject);
+        }
 	}
 }
